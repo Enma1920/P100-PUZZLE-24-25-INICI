@@ -85,7 +85,6 @@ function creaPuzzle(){
     $("#solucio").css("background-image","url(imatges/"+nomImatge+ extImatge+")");
 
     $(".peca").draggable();
-     
 
 }
 
@@ -145,8 +144,15 @@ function posicionaPeca(peca){
     * seva posició correcte  (posicioPecaCorrecte) 
     * 
     *  
-    */ 
-    
+    */
+    let idPeca = peca.attr("id");
+    let columna = parseInt(idPeca.chatAt(3)); // COLUMNA: EIX X. f1c2 --> 2
+    let fila = parseInt(idPeca.chatAt(1)); // FILA: EIX Y. f1c2 --> 1
+
+    let posicioPecaCorrecte = {
+        left: columna * ampladaPeca, // eix X
+        top: fila * alcadaPeca   // eix Y
+    }
     if (distanciaDosPunts(posicioPeca, posicioPecaCorrecte)<10){      
         /**TASCA *****************************
         * 2.- Si la distancia és dins del marge determinat
@@ -155,6 +161,9 @@ function posicionaPeca(peca){
         *  La peça ja no és podrà tornar a moure
         *  
         */ 
+       posicioPeca = posicioPecaCorrecte;
+       // la posicion de la piza ya tiene la posicion correcta pero falta hacerla funcional 
+       
     }
 
 }
@@ -189,9 +198,6 @@ function puzzleResolt(){
 }
 
 
-
-
-
 /**
 * Calcula la distància entre dos punts
 *
@@ -205,5 +211,7 @@ function distanciaDosPunts(puntA, puntB){
     * a la lliçó 5: Col·lisions  dels apunts
     *  
     */ 
+   // revisar si los puntos tienen x, y declarados
+   return Math.sqrt(Math.pow(puntB.x - puntA.x, 2) + Math.pow(puntB.y - puntA.y, 2));
 }
 
