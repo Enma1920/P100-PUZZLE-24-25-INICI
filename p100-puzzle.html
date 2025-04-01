@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+ <!-- Formulari selecciona la imatge i el número de peces del puzle.  -->
+
+  <div id="form-menu">
+    <!-- 5 menú que permet escollir imatges i/o el número de peces-->
+
+
+
+
+     <!--5 ------------------------------------------------------>
+    <p><input type="button" value="JUGAR" id="jugar" /></p>
+  </div>
+
+  <div id="form-joc" style="display:none;">
+    <p style="text-align: center;"><input type="button" value="Tornar a jugar" id="nouPuzzle" /></p>
+      <div id="marc-puzzle">
+        <div id="solucio"></div>
+        <div id="peces-puzzle">
+            <div id="f1c1" class="peca"></div><div id="f1c2" class="peca"></div>
+            <div id="f2c1" class="peca"></div><div id="f2c2" class="peca"></div>            
+        </div>
+        <div id="felicitacio" style="display:none;">
+          <h1> Felicitats!!<br />Fes clic al botó per tornar a jugar</h1>
+        </div>
+      </div>
+      <p style="text-align: center;"><input type="button" value="Resol el Puzzle" id="resolPuzzle" /></p>
+
+
+  </div>
+ 
+
+  <div id="imatges" style="display:none;">
+    <img id="p-img-2" src="imatges/img-2.jpg" width="800" height="800"/>   
+  </div>
+
+ <script src="js/jquery-3.6.0.min.js"></script>
+<script src="js/jquery-ui.min.js"></script>
+<script src="js/p100-puzzle.js"></script>
+    
+</body>
+</html>
