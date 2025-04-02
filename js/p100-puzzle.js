@@ -6,21 +6,45 @@ var extImatge = ".jpg";
 
 // comença el programa
 $(document).ready(function(){
-
+    $(".menu").show();
     //Esdeveniments de l'usuari
     //Menú inicial
     /**TASCA *****************************
     * Addicional.- codi del menú que permet escollir imatges i/o el número de peces**/
 
+    var audioMusica = $("#audioMusica")[0];
+    var botoMusica = $("#btnMusica");
+    var musicaOn = true;
 
-
-
+    // Parar musica de fons 
+    botoMusica.on("click",function(){
+        // Quan la música esta ON 
+        if(musicaOn){  
+            // pausem la música
+            audioMusica.pause();
+            document.getElementById("btnMusica").textContent = "Música On";
+            document.getElementById("audioMusica").style.display = "none";
+            musicaOn = false;
+        }
+        // Quan la música esta OFF
+        else{
+            // Reproduim la música
+            audioMusica.play();
+            document.getElementById("btnMusica").textContent = "Música Off";
+            document.getElementById("audioMusica").style.display = "block";
+            musicaOn = true;
+        }
+    });
+            
     /*****************************************************************/
     
       
    
     //Comença el joc
     $("#jugar").on("click",function(){
+        $("·menu").hide();
+        $("juego").show();
+
         creaPuzzle();
         $(".peca")
         .mousedown(function(){
@@ -85,7 +109,6 @@ function creaPuzzle(){
     $("#solucio").css("background-image","url(imatges/"+nomImatge+ extImatge+")");
 
     $(".peca").draggable();
-
 }
 
 /**
@@ -99,7 +122,8 @@ function crearPeces(){
     for (let fila=0; fila<numFiles; fila++){
         for (let columna=0; columna<numColumnes; columna++){
                 htmlPeces +="<div id='f"+fila+"c"+columna+"' class='peca'></div>"; 
-        }
+
+            }
         htmlPeces+="\n";
     }   
     return htmlPeces;
@@ -162,7 +186,17 @@ function posicionaPeca(peca){
         *  
         */ 
        posicioPeca = posicioPecaCorrecte;
+       peca.css({
+        left: posicioPeca.left + "px",
+        top: posicioPeca.top + "px"
+       })
+       peca.draggable("disable"); // ja no es pot moure la peça
+       
+  
+    
+    
        // la posicion de la piza ya tiene la posicion correcta pero falta hacerla funcional 
+       // que se muevan las piezas a la posicon correcta que no se pueda a mover
        
     }
 
