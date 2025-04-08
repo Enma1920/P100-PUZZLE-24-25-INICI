@@ -191,13 +191,6 @@ function posicionaPeca(peca){
         top: posicioPeca.top + "px"
        })
        peca.draggable("disable"); // ja no es pot moure la peça
-       
-  
-    
-    
-       // la posicion de la piza ya tiene la posicion correcta pero falta hacerla funcional 
-       // que se muevan las piezas a la posicon correcta que no se pueda a mover
-       
     }
 
 }
@@ -214,6 +207,15 @@ function resolPuzzle(){
     * seva posició correcte, resolent el puzle
     *  
     */ 
+    for (let fila=0; fila<numFiles; fila++){
+        for (let columna=0; columna<numColumnes; columna++){
+            $("#f"+fila+"c"+columna).css({
+                left: columna * ampladaPeca + "px",
+                top: fila * alcadaPeca + "px"
+            });
+        }
+    }
+
 }
 /**
 * Revisa si totes les peces son al seu lloc
@@ -228,6 +230,25 @@ function puzzleResolt(){
     * correcte, retorna cert
     *  
     */ 
+   let resolt = true; 
+
+   let posicioPecaCorrecte = {
+    left: columna * ampladaPeca, // eix X
+    top: fila * alcadaPeca   // eix Y
+    }
+    for (let fila=0; fila<numFiles; fila++){
+        for (let columna=0; columna<numColumnes; columna++){
+            let posicioPeca = $("#f"+fila+"c"+columna).position();
+            let peca = "#f"+fila+"c"+columna;
+            if(distanciaDosPunts(posicioPeca, posicioPecaCorrecte) != 0){
+                resolt = false;
+                // posicionaPeca(peca);
+                // puzzleResolt();
+                break;
+            }
+        }
+    }
+    return resolt;
 	
 }
 
