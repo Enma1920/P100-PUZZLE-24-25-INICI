@@ -7,6 +7,8 @@ var extImatge = ".jpg";
 // comença el programa
 $(document).ready(function(){
     $(".menu").show();
+    $(".juego").hide();
+
     //Esdeveniments de l'usuari
     //Menú inicial
     /**TASCA *****************************
@@ -42,10 +44,18 @@ $(document).ready(function(){
    
     //Comença el joc
     $("#jugar").on("click",function(){
-        $("·menu").hide();
-        $("juego").show();
 
-        creaPuzzle();
+        //Recogemos los inputs
+        var nomImatge = $("input[type='radio']:checked").val();
+        var numFiles = parseInt($("#inputFiles").val());
+        var numColumnes = parseInt($("#inputColumnes").val());
+
+        //Ocultamos el menú y mostramos el juego
+        $(".menu").hide();
+        $(".juego").show();
+        
+    console.log(nomImatge);
+        creaPuzzle(nomImatge, numFiles, numColumnes);
         $(".peca")
         .mousedown(function(){
             zIndexPeca = $(this).css("z-index");
@@ -89,12 +99,19 @@ $(document).ready(function(){
 * i del nombre de files i columnes
 * Estableix les mides dels contenidors
 */
-function creaPuzzle(){
-  
-    ampladaPeca = Math.floor($("#p-"+nomImatge).width()/numColumnes);
-    alcadaPeca = Math.floor($("#p-"+nomImatge).height()/numFiles);
+function creaPuzzle(nomImatge, numFiles, numColumnes){
+    var imagen = $("#p-"+nomImatge);
 
-    $("#peces-puzzle").html(crearPeces());
+    console.log(imagen);
+    console.log(imagen.css("width"));
+    console.log(imagen.css("height"));
+
+    ampladaPeca = Math.floor($("#p-"+nomImatge).width()/numColumnes);
+    console.log(ampladaPeca);
+    console.log(Math.floor($("#p-"+nomImatge).width()));
+    alcadaPeca = Math.floor($("#p-"+nomImatge).height()/numFiles);ç
+
+    $("#peces-puzzle").html(crearPeces(nomImatge, numFiles, numColumnes));
     $(".peca").css({
         "width" : ampladaPeca+"px",
         "height" : alcadaPeca+"px",
@@ -117,7 +134,7 @@ function creaPuzzle(){
 *
 * @return text (divs html per cada peça)
 */
-function crearPeces(){
+function crearPeces(numFiles, numColumnes){
     var htmlPeces = "";
     for (let fila=0; fila<numFiles; fila++){
         for (let columna=0; columna<numColumnes; columna++){

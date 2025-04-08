@@ -39,3 +39,25 @@ body{
     border-radius: 30px;
     padding-top: 50px;
 }
+
+
+.col img{
+    height:100px;
+    width: 100%;
+    cursor: pointer;
+    transition: transform 1s;
+    object-fit: cover;
+}
+
+/* Css Imagenes */
+.col label{
+    overflow: hidden;
+    position: relative;
+}
+.radioImg:checked + label>.tick_container{
+    opacity: 1;
+}
+/*         aNIMATION */
+.radioImg:checked + label>img{
+    border: 5px solid red;
+}
