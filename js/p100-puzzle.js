@@ -14,9 +14,30 @@ $(document).ready(function(){
     /**TASCA *****************************
     * Addicional.- codi del menú que permet escollir imatges i/o el número de peces**/
 
+    var audioMusica = $("#audioMusica")[0];
+    var botoMusica = $("#btnMusica");
+    var musicaOn = true;
 
-
-
+    // Parar musica de fons 
+    botoMusica.on("click",function(){
+        // Quan la música esta ON 
+        if(musicaOn){  
+            // pausem la música
+            audioMusica.pause();
+            document.getElementById("btnMusica").textContent = "Música On";
+            document.getElementById("audioMusica").style.display = "none";
+            musicaOn = false;
+        }
+        // Quan la música esta OFF
+        else{
+            // Reproduim la música
+            audioMusica.play();
+            document.getElementById("btnMusica").textContent = "Música Off";
+            document.getElementById("audioMusica").style.display = "block";
+            musicaOn = true;
+        }
+    });
+            
     /*****************************************************************/
     
       
@@ -105,7 +126,6 @@ function creaPuzzle(nomImatge, numFiles, numColumnes){
     $("#solucio").css("background-image","url(imatges/"+nomImatge+ extImatge+")");
 
     $(".peca").draggable();
-
 }
 
 /**
@@ -119,7 +139,8 @@ function crearPeces(numFiles, numColumnes){
     for (let fila=0; fila<numFiles; fila++){
         for (let columna=0; columna<numColumnes; columna++){
                 htmlPeces +="<div id='f"+fila+"c"+columna+"' class='peca'></div>"; 
-        }
+
+            }
         htmlPeces+="\n";
     }   
     return htmlPeces;
@@ -182,8 +203,11 @@ function posicionaPeca(peca){
         *  
         */ 
        posicioPeca = posicioPecaCorrecte;
-       // la posicion de la piza ya tiene la posicion correcta pero falta hacerla funcional 
-       
+       peca.css({
+        left: posicioPeca.left + "px",
+        top: posicioPeca.top + "px"
+       })
+       peca.draggable("disable"); // ja no es pot moure la peça
     }
 
 }
@@ -200,6 +224,15 @@ function resolPuzzle(){
     * seva posició correcte, resolent el puzle
     *  
     */ 
+    for (let fila=0; fila<numFiles; fila++){
+        for (let columna=0; columna<numColumnes; columna++){
+            $("#f"+fila+"c"+columna).css({
+                left: columna * ampladaPeca + "px",
+                top: fila * alcadaPeca + "px"
+            });
+        }
+    }
+
 }
 /**
 * Revisa si totes les peces son al seu lloc
@@ -214,6 +247,25 @@ function puzzleResolt(){
     * correcte, retorna cert
     *  
     */ 
+   let resolt = true; 
+
+   let posicioPecaCorrecte = {
+    left: columna * ampladaPeca, // eix X
+    top: fila * alcadaPeca   // eix Y
+    }
+    for (let fila=0; fila<numFiles; fila++){
+        for (let columna=0; columna<numColumnes; columna++){
+            let posicioPeca = $("#f"+fila+"c"+columna).position();
+            let peca = "#f"+fila+"c"+columna;
+            if(distanciaDosPunts(posicioPeca, posicioPecaCorrecte) != 0){
+                resolt = false;
+                // posicionaPeca(peca);
+                // puzzleResolt();
+                break;
+            }
+        }
+    }
+    return resolt;
 	
 }
 
