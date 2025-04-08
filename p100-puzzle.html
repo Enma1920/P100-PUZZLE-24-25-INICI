@@ -27,15 +27,26 @@
   <!-- Formulari selecciona la imatge i el número de peces del puzle.  -->
   <div class="container text-center">
     <!-- menu -->
-    <div class="row menu">
+    <div class="row menu ">
       <div class="col-12">
         <div id="form-menu">
           <!-- 5 menú que permet escollir imatges i/o el número de peces-->
-
           <div class="row">
             <div class="col-12">
               <h2>Escull una imatge</h2>
             </div>
+            <div class="row align-items-center justify-content-center">
+              <div class="col-auto">
+                <button class="btn btn-primary" id="btnMusica">
+                  Música Off
+                </button>
+              </div>
+              <div class="col-auto">
+                <audio controls autoplay loop id="audioMusica">
+                  <source src="horse.mp3" type="audio/mpeg">
+                </audio>
+              </div>
+            </div>          
           </div>
 
           <div class="row align-items-center justify-content-center">
@@ -72,6 +83,7 @@
     <!-- juego puzzle -->
     <div class="row juego d-none">
       <div class="col-12">
+        
 
         <div id="form-joc">
           <p style="text-align: center;"><input type="button" value="Tornar a jugar" id="nouPuzzle" /></p>
