@@ -43,21 +43,61 @@
               <div id="imatges">
                 <div class="row">
                   <div class="col-6 m-auto p-auto p-2">
-                    <img class="img-fluid" id="p-img-2" src="imatges/img-2.jpg" />
+                    <input type="radio" name="imgbackground" id="r-img-2" class="d-none radioImg" value="img-2">
+                    <label for="r-img-2">
+                      <img class="img-fluid" id="p-img-2" src="imatges/img-2.jpg" />
+                    </label>
                   </div>
                   <div class="col-6 m-auto p-auto p-2">
-                    <img class="img-fluid" id="p-img-3" src="imatges/img-3.jpg" />
+
+                    <input type="radio" name="imgbackground" id="r-img-3" class="d-none radioImg" value="img-3">
+                    <label for="r-img-3">
+                      <img class="img-fluid" id="p-img-3" src="imatges/img-3.jpg" />
+                    </label>
                   </div>
                   <div class="col-6 m-auto p-auto p-2">
-                    <img class="img-fluid" id="p-img-4" src="imatges/img-4.jpg" />
+
+                    <input type="radio" name="imgbackground" id="r-img-4" class="d-none radioImg" value="img-4">
+                    <label for="r-img-4">
+                      <img class="img-fluid" id="p-img-4" src="imatges/img-4.jpg" />
+                    </label>
                   </div>
                   <div class="col-6 m-auto p-auto p-2">
-                    <img class="img-fluid" id="p-img-5" src="imatges/img-5.jpg" />
+                    <input type="radio" name="imgbackground" id="r-img-5" class="d-none radioImg" value="img-5">
+                    <label for="r-img-5">
+                      <img class="img-fluid" id="p-img-5" src="imatges/img-5.jpg" />
+                    </label>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
+
+          <div class="row">
+            <div class="col-12">
+              <h2>Escull el nombre de files y columnes</h2>
+            </div>
+          </div>
+
+          <div class="row align-items-center justify-content-center p-2">
+
+            <div class="col-auto">
+              <label for="inputFiles" class="col-form-label">files</label>
+            </div>
+            <div class="col-auto">
+              <input type="number" min="1" id="inputFiles" class="form-control">
+            </div>
+
+            
+            <div class="col-auto">
+              <label for="inputColumnes" class="col-form-label">columnes</label>
+            </div>
+            <div class="col-auto">
+              <input type="number" min="1" id="inputColumnes" class="form-control">
+            </div>
+          </div>
+
           <div class="row">
             <div class="col-12">
               <p><input type="button" value="JUGAR" id="jugar" /></p>
@@ -70,7 +110,7 @@
     </div>
 
     <!-- juego puzzle -->
-    <div class="row juego d-none">
+    <div class="row juego">
       <div class="col-12">
 
         <div id="form-joc">
