@@ -4,6 +4,10 @@ var widthImagen = 0;
 var heightImagen = 0;
 var columnaPeca = null;
 var filaPeca = null;
+var numFilesImagen = null;
+var numColumnesImagen = null;
+var ampladaPecaImagen = null;
+var alcadaPecaImagen = null;
 
 // comença el programa
 $(document).ready(function(){
@@ -52,8 +56,12 @@ $(document).ready(function(){
         var numColumnes = parseInt($("#inputColumnes").val());
         var imagen = $("#p-"+nomImatge);
 
+        //TODO: corregir problema por el cual recoge el ancho y alto de la imagen pequeña y no original
         widthImagen = imagen.width();   //Obtenemos el width de la imagen y la guardamos
         heightImagen = imagen.height(); //Obtenemos el heigth de la imagen y la guardamos
+
+        numFilesImagen = numFiles;          //Obtenemos el numero de filas y lo guardamos
+        numColumnesImagen = numColumnes;    //Obtenemos el numero de columnas y lo guardamos
 
         let srcImagen = imagen.attr("src"); //Obtenemos la extensión de la imagen y la guardamos
         var extImatge = "." + srcImagen.split('.').pop().split(/\#|\?/)[0].toLowerCase();
@@ -98,6 +106,13 @@ $(document).ready(function(){
         */ 
         resolPuzzle();
     });
+
+    $("#nouPuzzle").on("click",function(){
+         //Ocultamos el juego y mostramos el menu
+         $(".menu").show();
+         $(".juego").hide();
+    });    
+
    
 });
 
@@ -222,12 +237,19 @@ function posicionaPeca(peca, ampladaPeca, alcadaPeca){
 * @para 
 * @return 
 */
-function resolPuzzle(numFiles, numColumnes){
+function resolPuzzle(){
     /**TASCA *****************************
     * 4.- Posiciona totes les peces a la 
     * seva posició correcte, resolent el puzle
     *  
     */ 
+
+    let numFiles = numFilesImagen;
+    let numColumnes = numColumnesImagen;
+
+    let ampladaPeca = ampladaPecaImagen;
+    let alcadaPeca = alcadaPecaImagen;
+
     for (let fila=0; fila<numFiles; fila++){
         for (let columna=0; columna<numColumnes; columna++){
             $("#f"+fila+"c"+columna).css({
