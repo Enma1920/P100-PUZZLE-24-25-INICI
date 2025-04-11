@@ -1,9 +1,9 @@
 
-var numFiles = 2;
-var numColumnes = 2;
-var nomImatge = "img-2";
-var extImatge = ".jpg";
-
+// var numFiles = 2;
+// var numColumnes = 2;
+// var nomImatge = "img-2";
+// var extImatge = ".jpg";
+let resolt = false; 
 // comença el programa
 $(document).ready(function(){
     $(".menu").show();
@@ -79,6 +79,7 @@ $(document).ready(function(){
                 * 6.- Codi que mostra la felicitació si puzzleResolt = true
                 * És valora alguna animació o efecte
                 */ 
+               $("#felictacioModal").modal("show");
             }
         });
 
@@ -109,7 +110,7 @@ function creaPuzzle(nomImatge, numFiles, numColumnes){
     ampladaPeca = Math.floor($("#p-"+nomImatge).width()/numColumnes);
     console.log(ampladaPeca);
     console.log(Math.floor($("#p-"+nomImatge).width()));
-    alcadaPeca = Math.floor($("#p-"+nomImatge).height()/numFiles);ç
+    alcadaPeca = Math.floor($("#p-"+nomImatge).height()/numFiles);
 
     $("#peces-puzzle").html(crearPeces(nomImatge, numFiles, numColumnes));
     $(".peca").css({
@@ -232,7 +233,6 @@ function resolPuzzle(){
             });
         }
     }
-
 }
 /**
 * Revisa si totes les peces son al seu lloc
@@ -247,8 +247,7 @@ function puzzleResolt(){
     * correcte, retorna cert
     *  
     */ 
-   let resolt = true; 
-
+   resolt = false;
    let posicioPecaCorrecte = {
     left: columna * ampladaPeca, // eix X
     top: fila * alcadaPeca   // eix Y
@@ -257,10 +256,13 @@ function puzzleResolt(){
         for (let columna=0; columna<numColumnes; columna++){
             let posicioPeca = $("#f"+fila+"c"+columna).position();
             let peca = "#f"+fila+"c"+columna;
-            if(distanciaDosPunts(posicioPeca, posicioPecaCorrecte) != 0){
-                resolt = false;
+            if(distanciaDosPunts(posicioPeca, posicioPecaCorrecte) == 0){
+                resolt = true;
                 // posicionaPeca(peca);
                 // puzzleResolt();
+            }
+            else{
+                resolt = false;
                 break;
             }
         }
