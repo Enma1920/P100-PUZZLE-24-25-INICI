@@ -223,10 +223,18 @@ function posicionaPeca(peca, ampladaPeca, alcadaPeca){
         */ 
        posicioPeca = posicioPecaCorrecte;
        peca.css({
-        left: posicioPeca.left + "px",
-        top: posicioPeca.top + "px"
+        left: posicioPecaCorrecte.left + "px",
+        top: posicioPecaCorrecte.top + "px"
        })
        peca.draggable("disable"); // ja no es pot moure la peça
+       peca.css("z-index", 1); // envia la peça al fons quan ja està col·locada
+
+       /*TASCA 2.- Si la distancia és dins del marge determinat mou la peça a la seva posició correcta. La peça ja no és podrà tornar a moure */
+        // peca.css("left", posicioPecaCorrecte.left + "px");
+        // peca.css("top", posicioPecaCorrecte.top + "px");
+
+        // peca.draggable("disable");
+        // peca.css("z-index", 1); // envia la peça al fons quan ja està col·locada
     }
 
 }
@@ -282,7 +290,7 @@ function puzzleResolt(ampladaPeca, alcadaPeca, numFiles, numColumnes){
         for (let columna=0; columna<numColumnes; columna++){
             let posicioPeca = $("#f"+fila+"c"+columna).position();
             let peca = "#f"+fila+"c"+columna;
-            if(distanciaDosPunts(posicioPeca, posicioPecaCorrecte) == 0){
+            if(distanciaDosPunts(posicioPeca, posicioPecaCorrecte) > 0){
                 resolt = true;
                 // posicionaPeca(peca);
                 // puzzleResolt();
@@ -312,6 +320,6 @@ function distanciaDosPunts(puntA, puntB){
     *  
     */ 
    // revisar si los puntos tienen x, y declarados
-   return Math.sqrt(Math.pow(puntB.x - puntA.x, 2) + Math.pow(puntB.y - puntA.y, 2));
+    return Math.sqrt(Math.pow(puntB.left - puntA.left, 2) + Math.pow(puntB.top - puntA.top, 2));
 }
 
