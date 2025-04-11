@@ -7,6 +7,7 @@ var numFilesImagen = null;
 var numColumnesImagen = null;
 var ampladaPecaImagen = null;
 var alcadaPecaImagen = null;
+let resolt = false; 
 
 // comença el programa
 $(document).ready(function(){
@@ -93,6 +94,7 @@ $(document).ready(function(){
                 * 6.- Codi que mostra la felicitació si puzzleResolt = true
                 * És valora alguna animació o efecte
                 */ 
+               $("#felictacioModal").modal("show");
             }
         });
 
@@ -121,7 +123,6 @@ $(document).ready(function(){
 * Estableix les mides dels contenidors
 */
 function creaPuzzle(nomImatge, extImatge, numFiles, numColumnes){
-
     ampladaPeca = Math.floor(widthImagen/numColumnes);
     alcadaPeca = Math.floor(heightImagen/numFiles);
 
@@ -257,7 +258,6 @@ function resolPuzzle(){
             });
         }
     }
-
 }
 /**
 * Revisa si totes les peces son al seu lloc
@@ -272,9 +272,8 @@ function puzzleResolt(ampladaPeca, alcadaPeca, numFiles, numColumnes){
     * correcte, retorna cert
     *  
     */ 
-   let resolt = true; 
+   resolt = false;
 
-   //TODO: Depurar en esta parte para saber como sale la columna y la fila.
    let posicioPecaCorrecte = {
     left: columnaPeca * ampladaPeca, // eix X
     top: filaPeca * alcadaPeca   // eix Y
@@ -283,10 +282,13 @@ function puzzleResolt(ampladaPeca, alcadaPeca, numFiles, numColumnes){
         for (let columna=0; columna<numColumnes; columna++){
             let posicioPeca = $("#f"+fila+"c"+columna).position();
             let peca = "#f"+fila+"c"+columna;
-            if(distanciaDosPunts(posicioPeca, posicioPecaCorrecte) != 0){
-                resolt = false;
+            if(distanciaDosPunts(posicioPeca, posicioPecaCorrecte) == 0){
+                resolt = true;
                 // posicionaPeca(peca);
                 // puzzleResolt();
+            }
+            else{
+                resolt = false;
                 break;
             }
         }
