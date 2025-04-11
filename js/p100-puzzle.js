@@ -1,9 +1,14 @@
-
-// var numFiles = 2;
-// var numColumnes = 2;
-// var nomImatge = "img-2";
-// var extImatge = ".jpg";
+//Variables globales
+var widthImagen = 0;
+var heightImagen = 0;
+var columnaPeca = null;
+var filaPeca = null;
+var numFilesImagen = null;
+var numColumnesImagen = null;
+var ampladaPecaImagen = null;
+var alcadaPecaImagen = null;
 let resolt = false; 
+
 // comença el programa
 $(document).ready(function(){
     $(".menu").show();
@@ -49,13 +54,23 @@ $(document).ready(function(){
         var nomImatge = $("input[type='radio']:checked").val();
         var numFiles = parseInt($("#inputFiles").val());
         var numColumnes = parseInt($("#inputColumnes").val());
+        var imagen = $("#p-"+nomImatge);
+
+        //TODO: corregir problema por el cual recoge el ancho y alto de la imagen pequeña y no original
+        widthImagen = imagen[0].naturalWidth;   //Obtenemos el width de la imagen y la guardamos
+        heightImagen = imagen[0].naturalHeight; //Obtenemos el heigth de la imagen y la guardamos
+
+        numFilesImagen = numFiles;          //Obtenemos el numero de filas y lo guardamos
+        numColumnesImagen = numColumnes;    //Obtenemos el numero de columnas y lo guardamos
+
+        let srcImagen = imagen.attr("src"); //Obtenemos la extensión de la imagen y la guardamos
+        var extImatge = "." + srcImagen.split('.').pop().split(/\#|\?/)[0].toLowerCase();
 
         //Ocultamos el menú y mostramos el juego
         $(".menu").hide();
         $(".juego").show();
         
-    console.log(nomImatge);
-        creaPuzzle(nomImatge, numFiles, numColumnes);
+        creaPuzzle(nomImatge, extImatge, numFiles, numColumnes);
         $(".peca")
         .mousedown(function(){
             zIndexPeca = $(this).css("z-index");
@@ -68,13 +83,13 @@ $(document).ready(function(){
             * i la posició correcte és inferior a una 
             * distància determinada
             */           
-            posicionaPeca($(this));
+            posicionaPeca($(this), ampladaPeca, alcadaPeca);
             /**
             * puzzleResolt revisa si totes les peces
             * estan a la seva posició correcte i 
             * En cas afirmatiu, mostra la felicitació
             */ 
-            if(puzzleResolt()){
+            if(puzzleResolt(ampladaPeca, alcadaPeca, numFiles, numColumnes)){
                 /**TASCA *****************************
                 * 6.- Codi que mostra la felicitació si puzzleResolt = true
                 * És valora alguna animació o efecte
@@ -92,6 +107,13 @@ $(document).ready(function(){
         */ 
         resolPuzzle();
     });
+
+    $("#nouPuzzle").on("click",function(){
+         //Ocultamos el juego y mostramos el menu
+         $(".menu").show();
+         $(".juego").hide();
+    });    
+
    
 });
 
@@ -100,25 +122,17 @@ $(document).ready(function(){
 * i del nombre de files i columnes
 * Estableix les mides dels contenidors
 */
-function creaPuzzle(nomImatge, numFiles, numColumnes){
-    var imagen = $("#p-"+nomImatge);
+function creaPuzzle(nomImatge, extImatge, numFiles, numColumnes){
+    ampladaPeca = Math.floor(widthImagen/numColumnes);
+    alcadaPeca = Math.floor(heightImagen/numFiles);
 
-    console.log(imagen);
-    console.log(imagen.css("width"));
-    console.log(imagen.css("height"));
-
-    ampladaPeca = Math.floor($("#p-"+nomImatge).width()/numColumnes);
-    console.log(ampladaPeca);
-    console.log(Math.floor($("#p-"+nomImatge).width()));
-    alcadaPeca = Math.floor($("#p-"+nomImatge).height()/numFiles);
-
-    $("#peces-puzzle").html(crearPeces(nomImatge, numFiles, numColumnes));
+    $("#peces-puzzle").html(crearPeces(numFiles, numColumnes));
     $(".peca").css({
         "width" : ampladaPeca+"px",
         "height" : alcadaPeca+"px",
     });   
     
-    setImatgePosicioPeces();
+    setImatgePosicioPeces(numFiles, numColumnes, ampladaPeca, alcadaPeca, nomImatge, extImatge);
    
 	$("#marc-puzzle").css("width", (ampladaPeca*numColumnes)+"px");
 	$("#marc-puzzle").css("height",( alcadaPeca*numFiles   )+"px");
@@ -153,7 +167,7 @@ function crearPeces(numFiles, numColumnes){
 * Estableix una posició aleatoria (left, top) per a cada peça. Barreja.
 *
 */
-function setImatgePosicioPeces(){
+function setImatgePosicioPeces(numFiles, numColumnes, ampladaPeca, alcadaPeca, nomImatge, extImatge){
     $(".peca").css("background-image","url(imatges/"+nomImatge+ extImatge+")");
     for (let fila=0; fila<numFiles; fila++){
         for (let columna=0; columna<numColumnes; columna++){
@@ -178,7 +192,7 @@ function setImatgePosicioPeces(){
 *  
 */   
 
-function posicionaPeca(peca){
+function posicionaPeca(peca, ampladaPeca, alcadaPeca){
    
     let posicioPeca = peca.position();
     /**TASCA *****************************
@@ -188,8 +202,12 @@ function posicionaPeca(peca){
     *  
     */
     let idPeca = peca.attr("id");
-    let columna = parseInt(idPeca.chatAt(3)); // COLUMNA: EIX X. f1c2 --> 2
-    let fila = parseInt(idPeca.chatAt(1)); // FILA: EIX Y. f1c2 --> 1
+    let columna = parseInt(idPeca.charAt(3)); // COLUMNA: EIX X. f1c2 --> 2 // CORREGIMOS ERROR QUE ESTABA MAL ESCRITO EL charAt
+    let fila = parseInt(idPeca.charAt(1)); // FILA: EIX Y. f1c2 --> 1 // CORREGIMOS ERROR QUE ESTABA MAL ESCRITO EL charAt
+
+    //Añadimos la filas y columnas en variables globales para luego usarlas.
+    columnaPeca = columna;
+    filaPeca = fila;
 
     let posicioPecaCorrecte = {
         left: columna * ampladaPeca, // eix X
@@ -225,6 +243,13 @@ function resolPuzzle(){
     * seva posició correcte, resolent el puzle
     *  
     */ 
+
+    let numFiles = numFilesImagen;
+    let numColumnes = numColumnesImagen;
+
+    let ampladaPeca = ampladaPecaImagen;
+    let alcadaPeca = alcadaPecaImagen;
+
     for (let fila=0; fila<numFiles; fila++){
         for (let columna=0; columna<numColumnes; columna++){
             $("#f"+fila+"c"+columna).css({
@@ -239,7 +264,7 @@ function resolPuzzle(){
 *
 * @return bool (true si totes les peces son al seu lloc)
 */
-function puzzleResolt(){
+function puzzleResolt(ampladaPeca, alcadaPeca, numFiles, numColumnes){
     /**TASCA *****************************
     * 5.- Revisa totes les peces i les seves posicions actuals i compara
     * aquestes poscions amb les posicions correctes que haurien de tenir
@@ -248,9 +273,10 @@ function puzzleResolt(){
     *  
     */ 
    resolt = false;
+
    let posicioPecaCorrecte = {
-    left: columna * ampladaPeca, // eix X
-    top: fila * alcadaPeca   // eix Y
+    left: columnaPeca * ampladaPeca, // eix X
+    top: filaPeca * alcadaPeca   // eix Y
     }
     for (let fila=0; fila<numFiles; fila++){
         for (let columna=0; columna<numColumnes; columna++){
