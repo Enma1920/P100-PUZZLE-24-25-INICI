@@ -13,6 +13,7 @@ let resolt = false;
 $(document).ready(function(){
     $(".menu").show();
     $(".juego").hide();
+    $("#felictacioModal").modal({show: false});
 
     //Esdeveniments de l'usuari
     //Menú inicial
@@ -21,7 +22,8 @@ $(document).ready(function(){
 
     var audioMusica = $("#audioMusica")[0];
     var botoMusica = $("#btnMusica");
-    var musicaOn = true;
+    var musicaOn = false;
+    audioMusica.style.display = "none"; // ocultar audio al principi
 
     // Parar musica de fons 
     botoMusica.on("click",function(){
