@@ -1,4 +1,3 @@
-
 //Variables globales
 var widthImagen = 0;
 var heightImagen = 0;
@@ -57,8 +56,8 @@ $(document).ready(function(){
         var imagen = $("#p-"+nomImatge);
 
         //TODO: corregir problema por el cual recoge el ancho y alto de la imagen pequeña y no original
-        widthImagen = imagen.width();   //Obtenemos el width de la imagen y la guardamos
-        heightImagen = imagen.height(); //Obtenemos el heigth de la imagen y la guardamos
+        widthImagen = imagen[0].naturalWidth;   //Obtenemos el width de la imagen y la guardamos
+        heightImagen = imagen[0].naturalHeight; //Obtenemos el heigth de la imagen y la guardamos
 
         numFilesImagen = numFiles;          //Obtenemos el numero de filas y lo guardamos
         numColumnesImagen = numColumnes;    //Obtenemos el numero de columnas y lo guardamos
