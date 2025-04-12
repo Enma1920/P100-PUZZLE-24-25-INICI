@@ -96,6 +96,10 @@ $(document).ready(function(){
                 * És valora alguna animació o efecte
                 */ 
                $("#felicitacionModal").modal("show");
+
+                if (puzzleResolt(ampladaPeca, alcadaPeca, numFiles, numColumnes)) {
+                    fuegosArtificiales(); 
+                }
             }
         });
 
@@ -230,13 +234,6 @@ function posicionaPeca(peca, ampladaPeca, alcadaPeca){
        })
        peca.draggable("disable"); // ja no es pot moure la peça
        peca.css("z-index", 1); // envia la peça al fons quan ja està col·locada
-
-       /*TASCA 2.- Si la distancia és dins del marge determinat mou la peça a la seva posició correcta. La peça ja no és podrà tornar a moure */
-        // peca.css("left", posicioPecaCorrecte.left + "px");
-        // peca.css("top", posicioPecaCorrecte.top + "px");
-
-        // peca.draggable("disable");
-        // peca.css("z-index", 1); // envia la peça al fons quan ja està col·locada
     }
 
 }
@@ -333,3 +330,26 @@ function distanciaDosPunts(puntA, puntB){
     return Math.sqrt(Math.pow(puntB.left - puntA.left, 2) + Math.pow(puntB.top - puntA.top, 2));
 }
 
+function fuegosArtificiales() {
+    const duracion = 3000; // 3 segundos
+    const end = Date.now() + duracion;
+
+    (function animar() {
+        confetti({
+            particleCount: 3,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 }
+        });
+        confetti({
+            particleCount: 3,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 }
+        });
+
+        if (Date.now() < end) {
+            requestAnimationFrame(animar);
+        }
+    })();
+}
