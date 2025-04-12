@@ -13,6 +13,7 @@ let resolt = false;
 $(document).ready(function(){
     $(".menu").show();
     $(".juego").hide();
+    $("#felictacioModal").modal({show: false});
 
     //Esdeveniments de l'usuari
     //Menú inicial
@@ -21,7 +22,8 @@ $(document).ready(function(){
 
     var audioMusica = $("#audioMusica")[0];
     var botoMusica = $("#btnMusica");
-    var musicaOn = true;
+    var musicaOn = false;
+    audioMusica.style.display = "none"; // ocultar audio al principi
 
     // Parar musica de fons 
     botoMusica.on("click",function(){
@@ -136,8 +138,9 @@ function creaPuzzle(nomImatge, extImatge, numFiles, numColumnes){
    
 	$("#marc-puzzle").css("width", (ampladaPeca*numColumnes)+"px");
 	$("#marc-puzzle").css("height",( alcadaPeca*numFiles   )+"px");
-    $("#solucio").css("width", "100%");
-    $("#solucio").css("height","100%");
+    $("#marc-puzzle").css("box-sizing", "content-box");
+    $("#solucio").css("width", (ampladaPeca*numColumnes)+"px");
+    $("#solucio").css("height",( alcadaPeca*numFiles   )+"px");
     $("#solucio").css("background-image","url(imatges/"+nomImatge+ extImatge+")");
 
     $(".peca").draggable();
@@ -255,15 +258,28 @@ function resolPuzzle(){
     let numFiles = numFilesImagen;
     let numColumnes = numColumnesImagen;
 
-    let ampladaPeca = ampladaPecaImagen;
-    let alcadaPeca = alcadaPecaImagen;
+    // let ampladaPeca = ampladaPecaImagen;
+    // let alcadaPeca = alcadaPecaImagen;
+
+    let posicioPecaCorrecte = {
+        left: columnaPeca * ampladaPeca, // eix X
+        top: filaPeca * alcadaPeca   // eix Y
+        }
 
     for (let fila=0; fila<numFiles; fila++){
         for (let columna=0; columna<numColumnes; columna++){
-            $("#f"+fila+"c"+columna).css({
-                left: columna * ampladaPeca + "px",
-                top: fila * alcadaPeca + "px"
-            });
+            let idPeca = "#f"+fila+"c"+columna;
+            let columna = parseInt(idPeca.charAt(3)); 
+            let fila = parseInt(idPeca.charAt(1));
+            let posicioPecaAResoldre = $(idPeca).position();
+
+            if(distanciaDosPunts(posicioPecaAResoldre, posicioPecaCorrecte) != 0){
+
+                $(peca).css({
+                    left: posicioPecaCorrecte.left + "px",
+                    top: posicioPecaCorrecte.top + "px"
+                });
+            }
         }
     }
 }

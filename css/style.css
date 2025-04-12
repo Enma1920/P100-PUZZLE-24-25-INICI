@@ -60,4 +60,12 @@ body{
 /*         aNIMATION */
 .radioImg:checked + label>img{
     border: 5px solid red;
+    border-radius: 12px;
+
+}
+.img-fluid:hover{
+    border-radius: 12px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);    
+    border: 3px solid #ff6f61; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-radius 0.3s ease; 
 }
