@@ -94,8 +94,12 @@ $(document).ready(function(){
                 /**TASCA *****************************
                 * 6.- Codi que mostra la felicitació si puzzleResolt = true
                 * És valora alguna animació o efecte
-                */ 
+                */
+               let textoFelicitacion = $("#animacionTexto");
+               textoFelicitacion.text("Felicitats!!!🧩 Has pogut resoldre el puzzle🎉"); 
                $("#felicitacionModal").modal("show");
+               animacionTexto("animacionTexto", textoFelicitacion);
+               
             }
         });
 
@@ -333,3 +337,22 @@ function distanciaDosPunts(puntA, puntB){
     return Math.sqrt(Math.pow(puntB.left - puntA.left, 2) + Math.pow(puntB.top - puntA.top, 2));
 }
 
+// animacion texto de carta de felicitacion, letra por letra
+function animacionTexto(idTexto, texto){
+        let idText = $("#"+`${idTexto}`);
+        let contenidoTexto = Array.from(texto.text()); // convertim en array de caracters
+        let longTexto = texto.text().length;
+        let textoAnimado = "";
+        for (let i = 0; i < longTexto; i++) {
+            ((index) => {
+                setTimeout(() => {
+                    if(contenidoTexto[i] == undefined){
+                        return;
+                    }
+                    textoAnimado += contenidoTexto[i]; // afegir lletra per lletra
+                    idText.html(textoAnimado); // actualitzar el text
+                }, 100 * index); // temps per cada carcter
+            })(i);
+        }
+
+}
