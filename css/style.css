@@ -69,3 +69,13 @@ body{
     border: 3px solid #ff6f61; 
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-radius 0.3s ease; 
 }
+
+/* tarjeta felicitación */
+.modal-content{
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    display: none; 
+    background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+    
+}
