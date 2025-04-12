@@ -7,13 +7,12 @@ var numFilesImagen = null;
 var numColumnesImagen = null;
 var ampladaPecaImagen = null;
 var alcadaPecaImagen = null;
-let resolt = false; 
 
 // comença el programa
 $(document).ready(function(){
     $(".menu").show();
     $(".juego").hide();
-    $("#felictacioModal").modal({show: false});
+    $("#felicitacionModal").modal({show: false});
 
     //Esdeveniments de l'usuari
     //Menú inicial
@@ -96,7 +95,7 @@ $(document).ready(function(){
                 * 6.- Codi que mostra la felicitació si puzzleResolt = true
                 * És valora alguna animació o efecte
                 */ 
-               $("#felictacioModal").modal("show");
+               $("#felicitacionModal").modal("show");
             }
         });
 
@@ -258,24 +257,18 @@ function resolPuzzle(){
     let numFiles = numFilesImagen;
     let numColumnes = numColumnesImagen;
 
-    // let ampladaPeca = ampladaPecaImagen;
-    // let alcadaPeca = alcadaPecaImagen;
-
-    let posicioPecaCorrecte = {
-        left: columnaPeca * ampladaPeca, // eix X
-        top: filaPeca * alcadaPeca   // eix Y
-        }
-
-    for (let fila=0; fila<numFiles; fila++){
-        for (let columna=0; columna<numColumnes; columna++){
-            let idPeca = "#f"+fila+"c"+columna;
-            let columna = parseInt(idPeca.charAt(3)); 
-            let fila = parseInt(idPeca.charAt(1));
+    for (let fila=0; fila < numFiles; fila++){
+        for (let columna=0; columna < numColumnes; columna++){
+            let idPeca = "#f" + fila + "c" + columna;
             let posicioPecaAResoldre = $(idPeca).position();
 
-            if(distanciaDosPunts(posicioPecaAResoldre, posicioPecaCorrecte) != 0){
+            let posicioPecaCorrecte = {
+                left: columna * ampladaPeca, // eix X
+                top: fila * alcadaPeca   // eix Y
+                }
 
-                $(peca).css({
+            if(distanciaDosPunts(posicioPecaAResoldre, posicioPecaCorrecte) != 0){
+                $(idPeca).css({
                     left: posicioPecaCorrecte.left + "px",
                     top: posicioPecaCorrecte.top + "px"
                 });
@@ -283,6 +276,7 @@ function resolPuzzle(){
         }
     }
 }
+
 /**
 * Revisa si totes les peces son al seu lloc
 *
@@ -296,29 +290,29 @@ function puzzleResolt(ampladaPeca, alcadaPeca, numFiles, numColumnes){
     * correcte, retorna cert
     *  
     */ 
-   resolt = false;
+   let resolt = true;
 
-   let posicioPecaCorrecte = {
-    left: columnaPeca * ampladaPeca, // eix X
-    top: filaPeca * alcadaPeca   // eix Y
-    }
     for (let fila=0; fila<numFiles; fila++){
         for (let columna=0; columna<numColumnes; columna++){
-            let posicioPeca = $("#f"+fila+"c"+columna).position();
             let peca = "#f"+fila+"c"+columna;
-            if(distanciaDosPunts(posicioPeca, posicioPecaCorrecte) > 0){
-                resolt = true;
-                // posicionaPeca(peca);
-                // puzzleResolt();
-            }
-            else{
+            let posicioPeca = $(peca).position();
+
+            let posicioPecaCorrecte = {
+                left: columna * ampladaPeca, // eix X
+                top: fila * alcadaPeca   // eix Y
+                }
+
+            if(distanciaDosPunts(posicioPeca, posicioPecaCorrecte) > 1){
                 resolt = false;
                 break;
             }
         }
+
+        // Si ya se detectó que no está resuelto, salimos del bucle exterior también
+        if (!resolt) break;
     }
+
     return resolt;
-	
 }
 
 
