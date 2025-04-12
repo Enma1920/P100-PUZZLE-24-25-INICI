@@ -99,7 +99,8 @@ $(document).ready(function(){
                textoFelicitacion.text("Felicitats!!!🧩 Has pogut resoldre el puzzle🎉"); 
                $("#felicitacionModal").modal("show");
                animacionTexto("animacionTexto", textoFelicitacion);
-               
+               +fuegosArtificiales(); 
+                
             }
         });
 
@@ -234,13 +235,6 @@ function posicionaPeca(peca, ampladaPeca, alcadaPeca){
        })
        peca.draggable("disable"); // ja no es pot moure la peça
        peca.css("z-index", 1); // envia la peça al fons quan ja està col·locada
-
-       /*TASCA 2.- Si la distancia és dins del marge determinat mou la peça a la seva posició correcta. La peça ja no és podrà tornar a moure */
-        // peca.css("left", posicioPecaCorrecte.left + "px");
-        // peca.css("top", posicioPecaCorrecte.top + "px");
-
-        // peca.draggable("disable");
-        // peca.css("z-index", 1); // envia la peça al fons quan ja està col·locada
     }
 
 }
@@ -354,5 +348,28 @@ function animacionTexto(idTexto, texto){
                 }, 100 * index); // temps per cada carcter
             })(i);
         }
+}
 
+function fuegosArtificiales() {
+    const duracion = 3000; // 3 segundos
+    const end = Date.now() + duracion;
+
+    (function animar() {
+        confetti({
+            particleCount: 3,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 }
+        });
+        confetti({
+            particleCount: 3,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 }
+        });
+
+        if (Date.now() < end) {
+            requestAnimationFrame(animar);
+        }
+    })();
 }
